@@ -1,0 +1,39 @@
+{
+    "env": {
+        "browser": true,
+        "es2018": true
+    },
+    "extends": [
+        "react-app",
+        "react-app/jest",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint",
+        "react"
+    ],
+    "rules": {
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off",
+        "prefer-const": "off",
+        "quotes": ["warn", "double"],
+        "indent": ["warn", 4],
+        "max-len": ["error", 140],
+        "max-lines": ["error", {
+            "max": 200,
+            "skipComments": true,
+            "skipBlankLines": true
+        }],
+        "semi": ["warn", "never"],
+        "comma-dangle": ["error", "always-multiline"],
+        "no-empty": "error",
+        "no-restricted-modules": "error"
+    }
+}

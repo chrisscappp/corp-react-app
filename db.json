@@ -1,0 +1,199 @@
+{
+    "todos": [
+        {
+            "id": 1,
+            "title": "Купить пиво и воблу",
+            "body": "Нужно сходить в магазин за пивом",
+            "complete": false,
+            "userId": 0,
+            "recommendedRang": "Junior",
+            "score": 1
+        },
+        {
+            "id": 2,
+            "title": "Покрасить кнопку",
+            "body": "Нужно покрасить кнопку в разделе контакты в красный цвет",
+            "complete": false,
+            "userId": 0,
+            "recommendedRang": "Senior",
+            "score": 4
+        },
+        {
+            "id": 3,
+            "title": "Сделать запрос в бд",
+            "body": "Необходимо получать список пользователей из базы данных",
+            "complete": false,
+            "userId": 0,
+            "recommendedRang": "Middle",
+            "score": 5
+        },
+        {
+            "id": 4,
+            "title": "Написать функцию сортировки",
+            "body": "Нужно написать функцию сортировки товара, по ключам цена и дата выпуска",
+            "complete": false,
+            "userId": 0,
+            "recommendedRang": "Junior",
+            "score": 3
+        },
+        {
+            "id": 5,
+            "title": "Кофе",
+            "body": "Персонал требует кофе! Нам нужно кофе! Сделайте кофе",
+            "complete": false,
+            "userId": 0,
+            "recommendedRang": "Middle",
+            "score": 5
+        }
+    ],
+    "users": [
+        {
+            "id": 1,
+            "login": "sus23",
+            "password": "ex123",
+            "token": "fhg3784ty7gj3j59835b",
+            "name": "Виталий Сусанин",
+            "rang": "Senior",
+            "is": "developer",
+            "rating": 9,
+            "todos": [],
+            "completeTodos": [
+                {
+                    "id": 60,
+                    "title": "Разминирование растяжек",
+                    "score": 4
+                },
+                {
+                    "id": 61,
+                    "title": "Написать рекурсивный компонент",
+                    "score": 5
+                },
+                {
+                    "id": 62,
+                    "title": "Поднять прод",
+                    "score": 3
+                }
+            ],
+            "overdueTodos": [
+                {
+                    "id": 63,
+                    "title": "Поднять базу данных sql",
+                    "score": 3
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "login": "katamaran",
+            "password": "skipidar",
+            "token": "351io5v13iynhm46mohi",
+            "name": "Игорь Натальевич",
+            "rang": "Middle",
+            "is": "developer",
+            "rating": 7,
+            "todos": [],
+            "completeTodos": [
+                {
+                    "id": 64,
+                    "title": "Оптимизация сортировки",
+                    "score": 3
+                },
+                {
+                    "id": 65,
+                    "title": "Написать Workflow yml",
+                    "score": 4
+                }
+            ],
+            "overdueTodos": []
+        },
+        {
+            "id": 3,
+            "login": "tema123",
+            "password": "krot",
+            "token": "lpoybnmv72850963vh5v",
+            "name": "Артемий Татьянович",
+            "rang": "Junior",
+            "is": "developer",
+            "rating": 7,
+            "todos": [],
+            "completeTodos": [
+                {
+                    "id": 66,
+                    "title": "Покрасить кнопку",
+                    "score": 2
+                },
+                {
+                    "id": 67,
+                    "title": "Наладить роутинг",
+                    "score": 4
+                },
+                {
+                    "id": 68,
+                    "title": "Донести документ в соседний отдел",
+                    "score": 1
+                },
+                {
+                    "id": 69,
+                    "title": "Написать сортировку по id",
+                    "score": 2
+                }
+            ],
+            "overdueTodos": [
+                {
+                    "id": 70,
+                    "title": "Уронить прод",
+                    "score": 0
+                },
+                {
+                    "id": 71,
+                    "title": "Сделать запрос в бд на товары",
+                    "score": 2
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "login": "loh123",
+            "password": "321",
+            "token": "kvmdjfnrhdyvn1538064",
+            "name": "Лох Лохов",
+            "rang": "Senior",
+            "is": "developer",
+            "rating": 0,
+            "todos": [],
+            "completeTodos": [],
+            "overdueTodos": [
+                {
+                    "id": 72,
+                    "title": "Наладить регистрацию",
+                    "score": 5
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "login": "bobro",
+            "password": "bobr",
+            "token": "mkmkvg89bnj3156rwrnj",
+            "name": "Александр Бобров",
+            "rang": "Junior",
+            "is": "developer",
+            "rating": 0,
+            "todos": [],
+            "completeTodos": [],
+            "overdueTodos": []
+        }
+    ],
+    "admins": [
+        {
+            "id": 1,
+            "login": "chriscap",
+            "password": "admin",
+            "token": "njksvfmkoebhu91378yetkjo",
+            "name": "Александр Шаненков",
+            "todos": [],
+            "rang": "Team Lead",
+            "is": "lead"
+        }
+    ]
+}

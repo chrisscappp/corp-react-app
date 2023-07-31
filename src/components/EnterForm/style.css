@@ -1,0 +1,56 @@
+.home__wrapper-container__modal-inputs__container {
+    padding-top: 10px;
+}
+
+.home__wrapper-container__buttons {
+    padding-top: 15px;
+    display: block;
+    width: 100%;
+}
+
+.enter__button {
+    width: 145px;
+    height: 33px;
+    border-radius: 5px;
+    border: 1px solid rgb(0, 213, 255);
+    background-color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.enter__button:hover {
+    background-color: rgb(0, 213, 255);
+}
+
+.register__button {
+    width: 200px;
+    height: 33px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(0, 213, 255);
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 20px;
+    transition: 0.3s;
+}
+
+.register__button:hover {
+    background-color: rgb(0, 157, 255);
+}
+
+@media (max-width: 400px) {
+    .enter__button {
+        width: 100%;
+    }
+    .register__button {
+        width: 100%;
+        margin-left: 0px;
+        margin-top: 10px;
+    }
+}
+
+.empty-error {
+    color: red;
+    font-size: 14px;
+}
