@@ -1,9 +1,6 @@
-export enum Rangs {
-    JUNIOR = "Junior",
-    MIDDLE = "Middle",
-    SENIOR = "Senior",
-    TEAM_LEAD = "Team Lead",
-}
+export type Rangs = "Junior" | "Middle" | "Senior" | "Team Lead" | ""
+
+export type WhoLogType = "lead" | "developer"
 
 export type EnterFormValues = {
     login: string; 
@@ -16,12 +13,19 @@ export type RegFormValues = {
     password: string; 
 }
 
+export type CreateNewTaskValues = {
+    title: string,
+    body: string,
+    score: number,
+    recommendedRang: string,
+}
+
 export interface ITodo {
     id: number;
     title: string;
     body: string;
     complete: boolean;
-    userId: number;
+    userId?: number;
     recommendedRang: Rangs;
     score: number;
 }
@@ -35,7 +39,7 @@ export interface IUser {
     password: string;
     token: string
     name: string;
-    rang: Rangs.JUNIOR | Rangs.MIDDLE | Rangs.SENIOR;
+    rang: Rangs;
     is: "developer"
     rating: number;
     todos: ITodo[];
@@ -51,5 +55,5 @@ export interface IAdmin {
     name: string;
     is: "lead";
     todos: ITodo[];
-    rang: Rangs.TEAM_LEAD;
+    rang: "Team Lead"
 }

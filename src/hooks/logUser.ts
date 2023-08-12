@@ -6,7 +6,9 @@ export function useLogUser() {
     const [user, setUser] = useState<IUser | object>({})
     const [error, setError] = useState<string>('')
 
-    const obj = localStorage.getItem(LOG_USER);
+    const obj = localStorage.getItem(LOG_USER)
+
+    // в лс токен, по токену ищем в массиве юсеров, который передали извне
 
     useEffect(() => {
         if (obj) {

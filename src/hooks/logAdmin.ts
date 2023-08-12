@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import { IUser } from '../models'
+import { IAdmin } from '../models'
 import { LOG_ADMIN } from '../utils/localStorageKeys'
 
 export function useLogAdmin() {
-    const [admin, setUser] = useState<IUser | object>({})
-    const [error, setError] = useState<string>('')
+    const [admin, setUser] = useState<IAdmin | object>({})
+    const [error, setError] = useState<string>("")
 
-    const obj = localStorage.getItem(LOG_ADMIN);
+    const obj = localStorage.getItem(LOG_ADMIN)
 
     useEffect(() => {
         if (obj) {
@@ -16,6 +16,8 @@ export function useLogAdmin() {
             setUser({})
         }
     }, [])
+
+    // переписать, храня в локал стораж токен, а в хук передать массив и там искать
 
     return { admin, error }
 }

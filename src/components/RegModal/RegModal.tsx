@@ -1,39 +1,41 @@
 import Box from '@mui/material/Box';
-import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import CloseIcon from '@mui/icons-material/Close'
+import Typography from '@mui/material/Typography'
+import Modal from '@mui/material/Modal'
 import TextField from "@mui/material/TextField"
-import MenuItem from '@mui/material/MenuItem';
-import SelectComponent from '../SelectComponent/SelectComponent';
-import { useState, useEffect } from "react"
+import MenuItem from '@mui/material/MenuItem'
+import SelectComponent from '../SelectComponent/SelectComponent'
+import { useState } from "react"
 import { observer } from "mobx-react-lite"
-import { Rangs, RegFormValues, IUser, IAdmin } from '../../models';
+import { Rangs, RegFormValues, IUser, IAdmin } from '../../models'
 import { useForm } from "react-hook-form"
+import { regNewUser, regNewAdmin } from '../../utils/regNewUser'
 import { style } from "./style"
 import "./style.css"
-
-// дописать в сторях ф-ии добавления нового
 
 interface RegModalProps { 
     users: IUser[];
     admins: IAdmin[];
     handleShow: () => void; 
+    addUser: (a: IUser) => void;
+    addAdmin: (a: IAdmin) => void;
 }
 
 const selectProp = {
     rangs: { inputLabel: "Должность", helperText: "Ваша должность в команде" },
 }
 
-const RegModal = ({ handleShow }: RegModalProps) => {
+const RegModal = ({ users, admins, handleShow, addUser, addAdmin }: RegModalProps) => {
 
     const { register, handleSubmit, formState: { errors } } = useForm<RegFormValues>()
     const [rang, setRang] = useState<Rangs | "">("")
 
-    function regUser(data: RegFormValues) {
+    function handleRegUser(data: RegFormValues) {
         if (rang !== "") {
-            
-            if (rang === Rangs.TEAM_LEAD) {
-                console.log(data, rang)
+            if (rang === "Team Lead") {
+                regNewAdmin(data, rang, admins, addAdmin)
+            } else {
+                regNewUser(data, rang, users, addUser)
             }
         } else {
             alert("Заполните все поля")
@@ -48,7 +50,7 @@ const RegModal = ({ handleShow }: RegModalProps) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <form onSubmit={handleSubmit(regUser)}>
+                <form onSubmit={handleSubmit(handleRegUser)}>
                     <Box sx={style}>
                         <div style = {{display: 'flex', justifyContent: "space-between"}}>
                             <Typography gutterBottom variant="h5" component="div">
@@ -93,15 +95,10 @@ const RegModal = ({ handleShow }: RegModalProps) => {
                                 <Typography className = "empty-error">Поле не должно быть пустым</Typography>
                             )}
                             <SelectComponent selectProp = {selectProp.rangs} her = {setRang}>
-                                <MenuItem value={Rangs.JUNIOR}>{Rangs.JUNIOR}</MenuItem>
-                                <MenuItem value={Rangs.MIDDLE}>{Rangs.MIDDLE}</MenuItem>
-                                <MenuItem value={Rangs.SENIOR}>{Rangs.SENIOR}</MenuItem>
-                                <MenuItem 
-                                    value={Rangs.TEAM_LEAD} 
-                                    
-                                >
-                                    {Rangs.TEAM_LEAD}
-                                </MenuItem>
+                                <MenuItem value={"Junior"}>Junior</MenuItem>
+                                <MenuItem value={"Middle"}>Middle</MenuItem>
+                                <MenuItem value={"Senior"}>Senior</MenuItem>
+                                <MenuItem value={"Team Lead"}>Team Lead</MenuItem>
                             </SelectComponent>
                             {rang === "" ? <Typography className = "empty-error">Поле не должно быть пустым</Typography> : null}
                             <TextField 

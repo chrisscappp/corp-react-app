@@ -1,0 +1,1 @@
+export const ELEMS_IN_RATING = 10

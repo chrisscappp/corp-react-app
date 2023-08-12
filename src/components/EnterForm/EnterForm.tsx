@@ -12,14 +12,13 @@ import InputAdornment from "@mui/material/InputAdornment"
 import IconButton from "@mui/material/IconButton"
 import OutlinedInput from "@mui/material/OutlinedInput"
 import EnterFormButtons from "./EnterFormButtons"
+import WrongPassword from "../WrongPassword/WrongPassword"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { IUser, IAdmin, EnterFormValues } from "../../models"
 import { findByKey } from "../../utils/findByKey"
 import { LOG_USER, LOG_ADMIN } from "../../utils/localStorageKeys"
 import "./style.css"
-
-//type EnterFormValues = { login: string; password: string; }
 
 interface EnterFormProps {
     users: IUser[];
@@ -33,31 +32,30 @@ const EnterForm = ({ users, admins, showReg }: EnterFormProps) => {
 
     const [showPassword, setShowPassword] = useState(false)
     const [checkbox, setCheckbox] = useState(false)
+    const [showPopup, setShowPopup] = useState(false)
 
     const handleClickShowPassword = () => setShowPassword((show) => !show)
     const handleChangeCheckbox = () => setCheckbox((checkbox) => !checkbox)
 
     function enterUser(data: EnterFormValues) {
-        if (!checkbox) {
+        if (checkbox === false) {
             const findUser: IUser | undefined = findByKey(users, "login", data.login)
-            if (findUser) {
+            if (findUser && findUser.password === data.password) {
                 localStorage.setItem(LOG_USER, JSON.stringify(findUser))
                 window.location.reload()
             } else {
-                alert('Неверный логин или пароль')
+                setShowPopup(true)
             }
         } else {
             const findUser: IAdmin | undefined = findByKey(admins, "login", data.login)
-            if (findUser) {
+            if (findUser && findUser.password === data.password) {
                 localStorage.setItem(LOG_ADMIN, JSON.stringify(findUser))
                 window.location.reload()
             } else {
-                alert('Неверный логин или пароль')
+                setShowPopup(true)
             }
         }
     }
-
-    console.log(admins, users)
 
     return (
         <>
@@ -135,6 +133,12 @@ const EnterForm = ({ users, admins, showReg }: EnterFormProps) => {
                     showReg = {showReg}
                 />
             </form>
+            {
+                showPopup ? 
+                    <WrongPassword 
+                        setShowPopup = {setShowPopup}
+                    /> : null
+            }
         </>
     )
 }

@@ -1,0 +1,19 @@
+.todolist-wrapper {
+    padding-left: 17px;
+    padding-right: 17px;
+    padding-bottom: 20px;
+}
+
+.todoItem__wrapper {
+    width: 100%;
+    background-color: rgb(230, 230, 230);
+    margin-top: 15px;
+    border-radius: 5px;
+    box-shadow: inset 0 calc(var(--borderWidth-thin, 1px)*-1) #cfcbcb;
+    cursor: grab;
+}
+
+.todolist-wrapper__header {
+    display: flex;
+    justify-content: space-between;
+}

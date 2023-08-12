@@ -1,38 +1,121 @@
-import { memo } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react"
 import { IAdmin } from "../models"
 import { isAdmin } from "../utils/typeGuards"
 import { LOG_ADMIN } from "../utils/localStorageKeys"
 import { logOut } from "../utils/logOut"
+import { observer } from "mobx-react-lite"
+import { useStores } from "../hooks/rootStoreContext"
+import AdminTools from "../components/AdminTools/AdminTools"
 import Spinner from "../components/Spinner/Spinner"
+import Footer from "../components/Footer/Footer"
+import ChangePassword from "../components/ChangePassword/ChangePassword"
+import DeleteAccount from "../components/DeleteAccount/DeleteAccount"
+import CreateNewTask from "../components/CreateNewTask/CreateNewTask"
+import AlertComponent from "../components/AlertComponent/AlertComponent"
+import ProfileInfoWrapper from "../components/ProfileInfoWrapper/ProfileInfoWrapper"
+import ProfileRatingWrapper from "../components/ProfileRatingWrapper/ProfileRatingWrapper"
+import ProfileNewTask from "../components/ProfileNewTask/ProfileNewTask"
+import "./style.css"
 
 interface AdminProfileLayoutProps {
-    admin: IAdmin | object;
+    a: IAdmin | object;
 }
 
-const AdminProfileLayout = ({ admin }: AdminProfileLayoutProps) => {
+const AdminProfileLayout = ({ a }: AdminProfileLayoutProps) => {
 
-    const navigate = useNavigate()
+    const [admin, setAdmin] = useState(a)
+    const [showChangePopup, setShowChangePopup] = useState<boolean>(false)
+    const [showDeletePopup, setShowDeletePopup] = useState<boolean>(false)
+    const [showNewTaskPopup, setShowNewTaskPopup] = useState<boolean>(false)
+    const [showSuccessAlert, setShowSuccessAlert] = useState<boolean>(false)
+    const [showTaskAlert, setShowTaskAlert] = useState<boolean>(false)
+    const [showErrorAlert, setShowErrorAlert] = useState<boolean>(false)
 
-    const handleLogOut = () => logOut(LOG_ADMIN)
+    const { 
+        adminsStore: { changePassword, deleteAccount }, 
+        usersStore: { topFiveUsers, foolDeveloper } ,
+    } = useStores()
+    
+    const handleChangePassword = (val: string) => {
+        let tmp: IAdmin = JSON.parse(JSON.stringify(admin))
+        tmp.password = val
+        setAdmin(tmp)
+        localStorage.removeItem(LOG_ADMIN)
+        localStorage.setItem(LOG_ADMIN, JSON.stringify(tmp))
+        changePassword(tmp, val)
+        setShowSuccessAlert(true)
+        setTimeout(() => setShowSuccessAlert(false), 5000)
+    }
+
+    const handleDeleteAccount = () => {
+        let tmp: IAdmin = JSON.parse(JSON.stringify(admin))
+        deleteAccount(tmp.id)
+        logOut(LOG_ADMIN)
+    }
 
     if (!isAdmin(admin)) return <Spinner/>
 
     return (
         <>
-            <div>
-                <div>
-                    {admin.name} - {admin.rang}
+            
+            <AlertComponent
+                successTitle = {"Пароль успешно изменён!"}
+                showSuccess = {showSuccessAlert}
+                showError = {showErrorAlert}
+            />
+            <AlertComponent
+                successTitle = {"Поздравляю! Вы тиран"}
+                showSuccess = {showTaskAlert}
+                showError = {showErrorAlert}
+            />
+            <div className = "adminProfile__wrapper">
+                <div className = "adminProfile__wrapper-container">
+                    <ProfileInfoWrapper
+                        data = {admin}
+                        setShowChangePopup = {setShowChangePopup}
+                        setShowDeletePopup = {setShowDeletePopup}
+                    />
+                    <ProfileNewTask
+                        setShowNewTaskPopup = {setShowNewTaskPopup}
+                    />
+                    <ProfileRatingWrapper
+                        topFiveUsers = {topFiveUsers}
+                        foolDeveloper = {foolDeveloper}
+                    />
                 </div>
-                <button onClick = {() => navigate("/info")}>
-                    К инфо
-                </button>
-                <button onClick = {handleLogOut}>
-                    Выйти
-                </button>
             </div>
+            <Footer/>
+            {
+                showChangePopup ? 
+                    <ChangePassword
+                        oldPassword = {admin.password}
+                        handleChangePassword = {handleChangePassword}
+                        setShowPopup = {setShowChangePopup}
+                        setShowErrorAlert = {setShowErrorAlert}
+                    /> 
+                    : null
+            }
+            {
+                showDeletePopup ?
+                    <DeleteAccount
+                        userPass = {admin.password}
+                        handleDeleteAccount = {handleDeleteAccount}
+                        setShowPopup = {setShowDeletePopup}
+                        setShowErrorAlert = {setShowErrorAlert}
+                    />
+                    : null
+            }
+            {
+                showNewTaskPopup ? 
+                    <CreateNewTask
+                        setShowPopup = {setShowNewTaskPopup}
+                        setShowTaskAlert = {setShowTaskAlert}
+                        setShowErrorAlert = {setShowErrorAlert}
+                    />
+                    : null
+            }
         </>
     )
 }
 
-export default memo(AdminProfileLayout)
+export default observer(AdminProfileLayout)
