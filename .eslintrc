@@ -25,7 +25,7 @@
         "prefer-const": "off",
         "quotes": ["warn", "double"],
         "indent": ["warn", 4],
-        "max-len": ["error", 140],
+        "max-len": ["error", 150],
         "max-lines": ["error", {
             "max": 200,
             "skipComments": true,

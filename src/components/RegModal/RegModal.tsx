@@ -7,9 +7,9 @@ import MenuItem from '@mui/material/MenuItem'
 import SelectComponent from '../SelectComponent/SelectComponent'
 import { useState } from "react"
 import { observer } from "mobx-react-lite"
-import { Rangs, RegFormValues, IUser, IAdmin } from '../../models'
+import { Rangs, RegFormValues, IUser, IAdmin } from 'models'
 import { useForm } from "react-hook-form"
-import { regNewUser, regNewAdmin } from '../../utils/regNewUser'
+import { regNewUser, regNewAdmin } from 'utils/regNewUser'
 import { style } from "./style"
 import "./style.css"
 

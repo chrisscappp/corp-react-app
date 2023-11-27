@@ -1,4 +1,5 @@
 import { memo } from "react"
+import { NavLink } from 'react-router-dom'
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -7,8 +8,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { NavLink } from 'react-router-dom'
-import { logOut } from "../../utils/logOut"
 import LogoutIcon from '@mui/icons-material/Logout';
 import './style.css'
 

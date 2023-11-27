@@ -1,20 +1,18 @@
-import { useState, useEffect } from "react"
-import { IAdmin } from "../models"
-import { isAdmin } from "../utils/typeGuards"
-import { LOG_ADMIN } from "../utils/localStorageKeys"
-import { logOut } from "../utils/logOut"
+import { useState, useCallback } from "react"
+import { IAdmin } from "models"
+import { isAdmin } from "utils/typeGuards"
+import { LOG_ADMIN } from "utils/localStorageKeys"
+import { logOut } from "utils/logOut"
 import { observer } from "mobx-react-lite"
-import { useStores } from "../hooks/rootStoreContext"
-import AdminTools from "../components/AdminTools/AdminTools"
-import Spinner from "../components/Spinner/Spinner"
-import Footer from "../components/Footer/Footer"
-import ChangePassword from "../components/ChangePassword/ChangePassword"
-import DeleteAccount from "../components/DeleteAccount/DeleteAccount"
-import CreateNewTask from "../components/CreateNewTask/CreateNewTask"
-import AlertComponent from "../components/AlertComponent/AlertComponent"
-import ProfileInfoWrapper from "../components/ProfileInfoWrapper/ProfileInfoWrapper"
-import ProfileRatingWrapper from "../components/ProfileRatingWrapper/ProfileRatingWrapper"
-import ProfileNewTask from "../components/ProfileNewTask/ProfileNewTask"
+import { useStores } from "hooks/rootStoreContext"
+import Spinner from "components/Spinner/Spinner"
+import ChangePassword from "components/ChangePassword/ChangePassword"
+import DeleteAccount from "components/DeleteAccount/DeleteAccount"
+import CreateNewTask from "components/CreateNewTask/CreateNewTask"
+import AlertComponent from "components/AlertComponent/AlertComponent"
+import ProfileInfoWrapper from "components/ProfileInfoWrapper/ProfileInfoWrapper"
+import ProfileRatingWrapper from "components/ProfileRatingWrapper/ProfileRatingWrapper"
+import ProfileNewTask from "components/ProfileNewTask/ProfileNewTask"
 import "./style.css"
 
 interface AdminProfileLayoutProps {
@@ -24,28 +22,30 @@ interface AdminProfileLayoutProps {
 const AdminProfileLayout = ({ a }: AdminProfileLayoutProps) => {
 
     const [admin, setAdmin] = useState(a)
-    const [showChangePopup, setShowChangePopup] = useState<boolean>(false)
-    const [showDeletePopup, setShowDeletePopup] = useState<boolean>(false)
-    const [showNewTaskPopup, setShowNewTaskPopup] = useState<boolean>(false)
     const [showSuccessAlert, setShowSuccessAlert] = useState<boolean>(false)
     const [showTaskAlert, setShowTaskAlert] = useState<boolean>(false)
     const [showErrorAlert, setShowErrorAlert] = useState<boolean>(false)
+    const [showChangePopup, setShowChangePopup] = useState<boolean>(false)
+    const [showDeletePopup, setShowDeletePopup] = useState<boolean>(false)
+    const [showNewTaskPopup, setShowNewTaskPopup] = useState<boolean>(false)
+
+    const handldeShowChange = useCallback(() => setShowChangePopup((showPopup) => !showPopup), [])
+    const handldeShowDelete = useCallback(() => setShowDeletePopup((showPopup) => !showPopup), [])
+    const handldeShowNewTask = useCallback(() => setShowNewTaskPopup((showPopup) => !showPopup), [])
 
     const { 
         adminsStore: { changePassword, deleteAccount }, 
         usersStore: { topFiveUsers, foolDeveloper } ,
     } = useStores()
     
-    const handleChangePassword = (val: string) => {
+    const handleChangePassword = useCallback((val: string) => {
         let tmp: IAdmin = JSON.parse(JSON.stringify(admin))
         tmp.password = val
         setAdmin(tmp)
-        localStorage.removeItem(LOG_ADMIN)
-        localStorage.setItem(LOG_ADMIN, JSON.stringify(tmp))
         changePassword(tmp, val)
         setShowSuccessAlert(true)
         setTimeout(() => setShowSuccessAlert(false), 5000)
-    }
+    }, [])
 
     const handleDeleteAccount = () => {
         let tmp: IAdmin = JSON.parse(JSON.stringify(admin))
@@ -57,7 +57,6 @@ const AdminProfileLayout = ({ a }: AdminProfileLayoutProps) => {
 
     return (
         <>
-            
             <AlertComponent
                 successTitle = {"Пароль успешно изменён!"}
                 showSuccess = {showSuccessAlert}
@@ -72,11 +71,11 @@ const AdminProfileLayout = ({ a }: AdminProfileLayoutProps) => {
                 <div className = "adminProfile__wrapper-container">
                     <ProfileInfoWrapper
                         data = {admin}
-                        setShowChangePopup = {setShowChangePopup}
-                        setShowDeletePopup = {setShowDeletePopup}
+                        handleShowChangePopup = {handldeShowChange}
+                        handleShowDeletePopup = {handldeShowDelete}
                     />
                     <ProfileNewTask
-                        setShowNewTaskPopup = {setShowNewTaskPopup}
+                        handleShowPopup = {handldeShowNewTask}
                     />
                     <ProfileRatingWrapper
                         topFiveUsers = {topFiveUsers}
@@ -84,13 +83,12 @@ const AdminProfileLayout = ({ a }: AdminProfileLayoutProps) => {
                     />
                 </div>
             </div>
-            <Footer/>
             {
                 showChangePopup ? 
                     <ChangePassword
                         oldPassword = {admin.password}
                         handleChangePassword = {handleChangePassword}
-                        setShowPopup = {setShowChangePopup}
+                        handleShowPopup = {handldeShowChange}
                         setShowErrorAlert = {setShowErrorAlert}
                     /> 
                     : null
@@ -100,7 +98,7 @@ const AdminProfileLayout = ({ a }: AdminProfileLayoutProps) => {
                     <DeleteAccount
                         userPass = {admin.password}
                         handleDeleteAccount = {handleDeleteAccount}
-                        setShowPopup = {setShowDeletePopup}
+                        handleShowPopup = {handldeShowDelete}
                         setShowErrorAlert = {setShowErrorAlert}
                     />
                     : null
@@ -108,7 +106,7 @@ const AdminProfileLayout = ({ a }: AdminProfileLayoutProps) => {
             {
                 showNewTaskPopup ? 
                     <CreateNewTask
-                        setShowPopup = {setShowNewTaskPopup}
+                        handleShowPopup = {handldeShowNewTask}
                         setShowTaskAlert = {setShowTaskAlert}
                         setShowErrorAlert = {setShowErrorAlert}
                     />

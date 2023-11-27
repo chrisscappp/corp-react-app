@@ -1,9 +1,9 @@
-import TodosStore from "./todos-store"
+import CommandStore from "./command-store"
 import UsersStore from "./users-store"
 import AdminsStore from "./admins-store"
 
 class RootStore {
-    todosStore = new TodosStore()
+    commandsStore = new CommandStore()
     usersStore = new UsersStore()
     adminsStore = new AdminsStore()
 }

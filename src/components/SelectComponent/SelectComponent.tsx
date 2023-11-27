@@ -1,17 +1,13 @@
-import { useState, ReactNode } from 'react';
+import { useState, ReactNode, Dispatch, SetStateAction } from 'react';
+import { Rangs, SortPropType } from 'models';
 import InputLabel from '@mui/material/InputLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { Rangs } from '../../models';
-import { Dispatch, SetStateAction } from "react";
 
 interface SelectComponentProps {
-    selectProp: {
-        inputLabel: string;
-        helperText: string;
-    },
-    her: Dispatch<SetStateAction<Rangs | "">>,
+    selectProp: SortPropType;
+    her?: Dispatch<SetStateAction<Rangs | "">>,
     children: ReactNode
 }
 
@@ -20,7 +16,9 @@ const SelectComponent = ({selectProp, her, children}: SelectComponentProps) => {
 
     const handleChange = (event: any) => {
         setValue(event.target.value)
-        her(event.target.value)
+        if (her) {
+            her(event.target.value)
+        }
     }
 
     return (

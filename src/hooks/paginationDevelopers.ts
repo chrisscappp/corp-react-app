@@ -1,11 +1,8 @@
-import { ELEMS_IN_RATING } from "../utils/constants"
-import { IUser } from "../models"
+export function useCurrentItems<T>(items: T[], itemOffset: number, elemsInList: number) {
 
-export function useCurrentItems (items: IUser[], itemOffset: number) {
-
-    let endOffset = itemOffset + ELEMS_IN_RATING
+    let endOffset = itemOffset + elemsInList
     let currentItems = items.slice(itemOffset, endOffset)
-    if (currentItems.length === 0) currentItems = items.slice(0, ELEMS_IN_RATING)
-    
+    if (currentItems.length === 0) currentItems = items.slice(0, elemsInList)
+
     return { currentItems } 
 }

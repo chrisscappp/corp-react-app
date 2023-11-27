@@ -1,16 +1,19 @@
 import { findByKey } from './findByKey';
 import { generateToken } from './generateToken';
-import { Rangs, RegFormValues, IAdmin, IUser } from "../models"
-import { LOG_ADMIN, LOG_USER } from './localStorageKeys';
+import { generateId } from './generateId';
+import { Rangs, RegFormValues, IAdmin, IUser } from "models"
+import { LOG_ADMIN, LOG_USER, TEAM_ID, TOKEN_KEY } from './localStorageKeys';
 
 export function regNewUser(data: RegFormValues, rng: Rangs, arr: IUser[], add: (a: IUser) => void) {
     const t = generateToken()
+    const i = generateId()
     const user: IUser = {
-        id: arr.length + 1,
+        id: i,
         login: data.login, 
         password: data.password, 
         token: t,
         name: data.name, 
+        teamId: "",
         is: "developer", 
         todos: [], 
         rang: rng,
@@ -23,21 +26,23 @@ export function regNewUser(data: RegFormValues, rng: Rangs, arr: IUser[], add: (
         alert("Логин занят")
     } else {
         add(user)
-        localStorage.setItem(LOG_USER, JSON.stringify(user))
+        localStorage.setItem(TOKEN_KEY, user.token)
         window.location.reload()
     }
 }
 
 export function regNewAdmin(data: RegFormValues, rng: Rangs, arr: IAdmin[], add: (a: IAdmin) => void) {
     const t = generateToken()
+    const i = generateId()
     const admin: IAdmin = {
-        id: arr.length + 1,
+        id: i,
         login: data.login, 
         password: data.password, 
         token: t,
         name: data.name, 
         is: "lead", 
         todos: [], 
+        notifications: [],
         rang: "Team Lead",
     }
     const fn = findByKey(arr, "login", data.login)
@@ -45,7 +50,8 @@ export function regNewAdmin(data: RegFormValues, rng: Rangs, arr: IAdmin[], add:
         alert("Логин занят")
     } else {
         add(admin)
-        localStorage.setItem(LOG_ADMIN, JSON.stringify(admin))
+        localStorage.setItem(TOKEN_KEY, admin.token)
+        localStorage.setItem(TEAM_ID, admin.login)
         window.location.reload()
     }
 

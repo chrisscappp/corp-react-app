@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react"
 import { observer } from "mobx-react-lite"
-import { IUser } from "../../models"
-import { isUser } from "../../utils/typeGuards"
-import { ELEMS_IN_RATING } from "../../utils/constants"
-import { useCurrentItems } from "../../hooks/paginationDevelopers"
+import { IUser } from "models"
+import { isUser } from "utils/typeGuards"
 import Typography from "@mui/material/Typography"
 import AlertComponent from "../AlertComponent/AlertComponent"
 import ConfirmDismiss from "../ConfirmDismiss/ConfirmDismiss"
+import "./style.css"
 
 interface ProfileRatingWrapperProps {
     topFiveUsers: () => Promise<IUser[]>;
@@ -25,23 +24,17 @@ const ProfileRatingWrapper = ({ topFiveUsers, foolDeveloper }: ProfileRatingWrap
     const [showSuccessAlert, setShowSuccessAlert] = useState<boolean>(false)
     const [showErrorAlert, setShowErrorAlert] = useState<boolean>(false)
 
-    /*const [itemOffset, setItemOffset] = useState(0)
-    const { currentItems } = useCurrentItems(users, itemOffset)
-    const pageCount = Math.ceil(users.length / ELEMS_IN_RATING)
-
-    const handleChangePage = (e: any, page: number) => {
-        const newOffset = ((page - 1) * ELEMS_IN_RATING) % users.length
-        setItemOffset(newOffset)
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-    }*/
-
     useEffect(() => {
         topFiveUsers().then((res) => setUsers(res))
         foolDeveloper().then((res) => setFool(res))
     }, [])
 
     const handleDismissDeveloper = () => {
-        console.log('hui')
+        alert('На почту сотруднику пришло письмо об увольнении!')
+    }
+
+    const handleWrongDeveloper = () => {
+        alert('На почту сотруднику пришло предупреждение!')
     }
 
     return (
@@ -90,6 +83,12 @@ const ProfileRatingWrapper = ({ topFiveUsers, foolDeveloper }: ProfileRatingWrap
                         onClick = {() => setShowConfirmPopup(true)}
                     >
                         уволить
+                    </button>
+                    <button 
+                        className = "item6" 
+                        onClick = {handleWrongDeveloper}
+                    >
+                        выслать предупреждение
                     </button>
                 </div>
             </div>

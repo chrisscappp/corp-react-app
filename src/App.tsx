@@ -1,5 +1,5 @@
 import { RootStoreContext } from "./hooks/rootStoreContext"
-import RootStore from "./store/root-store"
+import RootStore from "store/root-store"
 import AppLayout from "./layouts/AppLayout"
 
 function App() {

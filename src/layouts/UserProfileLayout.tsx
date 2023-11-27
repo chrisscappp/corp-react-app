@@ -1,18 +1,22 @@
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { observer } from "mobx-react-lite"
-import { useStores } from "../hooks/rootStoreContext"
-import { IUser } from "../models"
-import { isUser } from "../utils/typeGuards"
-import { LOG_USER } from "../utils/localStorageKeys"
-import { logOut } from "../utils/logOut"
+import { useStores } from "hooks/rootStoreContext"
+import { IUser } from "models"
+import { isUser } from "utils/typeGuards"
+import { LOG_USER } from "utils/localStorageKeys"
+import { logOut } from "utils/logOut"
 import { useNavigate } from "react-router-dom"
-import Spinner from "../components/Spinner/Spinner"
+import { unGotTodosTitle } from "utils/declination"
+import Spinner from "components/Spinner/Spinner"
 import Typography from "@mui/material/Typography"
-import ChangePassword from "../components/ChangePassword/ChangePassword"
-import DeleteAccount from "../components/DeleteAccount/DeleteAccount"
-import AlertComponent from "../components/AlertComponent/AlertComponent"
-import ProfileInfoWrapper from "../components/ProfileInfoWrapper/ProfileInfoWrapper"
-import Footer from "../components/Footer/Footer"
+import ChangePassword from "components/ChangePassword/ChangePassword"
+import DeleteAccount from "components/DeleteAccount/DeleteAccount"
+import AlertComponent from "components/AlertComponent/AlertComponent"
+import ProfileInfoWrapper from "components/ProfileInfoWrapper/ProfileInfoWrapper"
+import Footer from "components/Footer/Footer"
+import VerifedUser from "components/VerifedUser/VerifedUser"
+import VerifedPopup from "components/VerifedPopup/VerifedPopup"
+import "./style.css"
 
 interface UserProfileLayoutProps {
     u: IUser | object;
@@ -21,33 +25,43 @@ interface UserProfileLayoutProps {
 const UserProfileLayout = ({ u }: UserProfileLayoutProps) => {
 
     const [user, setUser] = useState(u)
-    const [showChangePopup, setShowChangePopup] = useState<boolean>(false)
-    const [showDeletePopup, setShowDeletePopup] = useState<boolean>(false)
     const [showSuccessAlert, setShowSuccessAlert] = useState<boolean>(false)
     const [showErrorAlert, setShowErrorAlert] = useState<boolean>(false)
+    const [showChangePopup, setShowChangePopup] = useState<boolean>(false)
+    const [showDeletePopup, setShowDeletePopup] = useState<boolean>(false)
+    const [showVerifedPopup, setShowVerifedPopup] = useState<boolean>(false)
+
+    const handldeShowChange = useCallback(() => setShowChangePopup((showPopup) => !showPopup), [])
+    const handldeShowDelete = useCallback(() => setShowDeletePopup((showPopup) => !showPopup), [])
+    const handleShowVerifed = useCallback(() => setShowVerifedPopup((showPopup) => !showPopup), [])
 
     const navigate = useNavigate()
 
     const { usersStore: {
         changePassword, 
         deleteAccount,
+        verifedAccount
     } } = useStores()
 
-    const handleChangePassword = (val: string) => {
+    const handleChangePassword = useCallback((val: string) => {
         let tmp: IUser = JSON.parse(JSON.stringify(user))
         tmp.password = val
         setUser(tmp)
-        localStorage.removeItem(LOG_USER)
-        localStorage.setItem(LOG_USER, JSON.stringify(tmp))
         changePassword(tmp, val)
         setShowSuccessAlert(true)
         setTimeout(() => setShowSuccessAlert(false), 5000)
-    }
+    }, [])
 
     const handleDeleteAccount = () => {
         let tmp: IUser = JSON.parse(JSON.stringify(user))
         deleteAccount(tmp.id)
         logOut(LOG_USER)
+    }
+
+    const handleVerifedUser = (val: string) => {
+        let tmp: IUser = JSON.parse(JSON.stringify(user))
+        tmp.teamId = val
+        verifedAccount(tmp, val)
     }
 
     if (!isUser(user)) return <Spinner/>
@@ -63,10 +77,18 @@ const UserProfileLayout = ({ u }: UserProfileLayoutProps) => {
                 <div className = "userProfile__wrapper-container">
                     <ProfileInfoWrapper
                         data = {user}
-                        setShowChangePopup = {setShowChangePopup}
-                        setShowDeletePopup = {setShowDeletePopup}
+                        handleShowChangePopup = {handldeShowChange}
+                        handleShowDeletePopup = {handldeShowDelete}
                     />
-                    <div className = "userProfile__wrapper-tasks__wrapper common-profile__wrapper">
+                    {
+                        user.teamId ? null :
+                        <>
+                            <VerifedUser
+                                handleShowVerifed = {handleShowVerifed}
+                            />
+                        </>
+                    }
+                    <div className = "userProfile__wrapper-tasks__wrapper common-profile__wrapper" style = {{marginBottom: "50px"}}>
                         <div className = "info-wrapper__header">
                             <Typography gutterBottom variant="h5" component="div" style = {{paddingTop: "15px", paddingLeft: "15px"}}>
                                 Мои задачи
@@ -84,7 +106,7 @@ const UserProfileLayout = ({ u }: UserProfileLayoutProps) => {
                                         :
                                         <>
                                             <Typography gutterBottom variant="h6" component="div" style = {{marginTop: "15px"}}>
-                                                У вас {user.todos.length} невыполненных задач!
+                                                У вас {user.todos.length} {unGotTodosTitle(user.todos.length, ['невыполненная', 'невыполненные', 'невыполненных'])} {unGotTodosTitle(user.todos.length, ['задача', 'задачи', 'задач'])}!
                                             </Typography>
                                             <button 
                                                 className = "info-wrapper__body-buttons__item item1" 
@@ -105,7 +127,7 @@ const UserProfileLayout = ({ u }: UserProfileLayoutProps) => {
                     <ChangePassword
                         oldPassword = {user.password}
                         handleChangePassword = {handleChangePassword}
-                        setShowPopup = {setShowChangePopup}
+                        handleShowPopup = {handldeShowChange}
                         setShowErrorAlert = {setShowErrorAlert}
                     /> 
                     : null
@@ -115,7 +137,16 @@ const UserProfileLayout = ({ u }: UserProfileLayoutProps) => {
                     <DeleteAccount
                         userPass = {user.password}
                         handleDeleteAccount = {handleDeleteAccount}
-                        setShowPopup = {setShowDeletePopup}
+                        handleShowPopup = {handldeShowDelete}
+                        setShowErrorAlert = {setShowErrorAlert}
+                    />
+                    : null
+            }
+            {
+                showVerifedPopup ?
+                    <VerifedPopup
+                        handleVerifedUser = {handleVerifedUser}
+                        handleShowVerifed = {handleShowVerifed}
                         setShowErrorAlert = {setShowErrorAlert}
                     />
                     : null

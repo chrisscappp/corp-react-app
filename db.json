@@ -1,107 +1,182 @@
 {
-  "todos": [
+  "commands": [
     {
-      "id": 1,
-      "title": "string",
-      "body": "string",
-      "complete": false,
-      "userId": 0,
-      "recommendedRang": "Junior",
-      "score": 3
-    },
-    {
-      "id": 2,
-      "title": "1",
-      "body": "2",
-      "complete": false,
-      "userId": 0,
-      "recommendedRang": "Junior",
-      "score": "3"
-    },
-    {
-      "id": 3,
-      "title": "Пиво",
-      "body": "Необходимо купить пиво и воблу",
-      "complete": false,
-      "userId": 0,
-      "recommendedRang": "Senior",
-      "score": "4"
-    },
-    {
-      "id": 4,
-      "title": "Крот",
-      "body": "Лох",
-      "complete": false,
-      "userId": 0,
-      "recommendedRang": "Middle",
-      "score": "3"
-    },
-    {
-      "id": 5,
-      "title": "4",
-      "body": "5",
-      "complete": false,
-      "userId": 0,
-      "recommendedRang": "Junior",
-      "score": "6"
-    },
-    {
-      "id": 6,
-      "title": "Перекраска кнопки",
-      "body": "отыотпоапоаопиоваптваповолртолторто вотртпровполт ротпвто толр вторв потр топртор товп торпрол влпрл воптр отвпр отвпотр вто торвпотро впорло олтвпрот впотлро пворол лотвпт",
-      "complete": false,
-      "userId": 0,
-      "recommendedRang": "Middle",
-      "score": "1"
-    }
-  ],
-  "gotTodos": [],
-  "users": [
-    {
-      "id": 1,
-      "login": "sus23",
-      "password": "ex123",
-      "token": "fhg3784ty7gj3j59835b",
-      "name": "Виталий Сусанин",
-      "rang": "Senior",
-      "is": "developer",
-      "rating": 9,
-      "todos": [],
-      "completeTodos": [
+      "id": "chriscap",
+      "name": "Бобры",
+      "todos": [
         {
-          "id": 60,
-          "title": "Разминирование растяжек",
-          "score": 4
+          "id": "fPdc",
+          "title": "Тестинг",
+          "body": "Купить хот дог",
+          "complete": false,
+          "verified": false,
+          "start": false,
+          "userId": "",
+          "recommendedRang": "Senior",
+          "score": "4"
         },
         {
-          "id": 61,
-          "title": "Написать рекурсивный компонент",
-          "score": 5
+          "id": "RmGE",
+          "title": "098765",
+          "body": "123456789",
+          "complete": false,
+          "verified": false,
+          "start": false,
+          "userId": 0,
+          "recommendedRang": "Middle",
+          "score": "4"
         },
         {
-          "id": 62,
-          "title": "Поднять прод",
-          "score": 3
+          "id": "4apI",
+          "title": "Из профиля",
+          "body": "12345",
+          "complete": false,
+          "verified": false,
+          "start": false,
+          "userId": "",
+          "recommendedRang": "Junior",
+          "score": "4"
+        },
+        {
+          "id": "nPjl",
+          "title": "Из лэйаута",
+          "body": "6789",
+          "complete": false,
+          "verified": false,
+          "start": false,
+          "userId": "",
+          "recommendedRang": "Middle",
+          "score": "5"
+        },
+        {
+          "id": "u9d1",
+          "title": "123",
+          "body": "321",
+          "complete": false,
+          "verified": false,
+          "start": false,
+          "userId": "16HH",
+          "recommendedRang": "Middle",
+          "score": "3"
+        },
+        {
+          "id": "5NI1",
+          "title": "Пиво",
+          "body": "Вобла",
+          "complete": false,
+          "verified": false,
+          "start": false,
+          "userId": "abc5",
+          "recommendedRang": "Junior",
+          "score": "1"
+        },
+        {
+          "id": "uqBc",
+          "title": "мага777",
+          "body": "Необходимо купить пиво и воблу",
+          "complete": false,
+          "verified": true,
+          "start": true,
+          "userId": "abc5",
+          "recommendedRang": "Junior",
+          "score": "123"
         }
       ],
-      "overdueTodos": [
+      "gotTodos": [
         {
-          "id": 63,
-          "title": "Поднять базу данных sql",
-          "score": 3
+          "id": "kKfY",
+          "title": "Боль",
+          "body": "Страдания",
+          "complete": true,
+          "verified": true,
+          "start": true,
+          "userId": "abc5",
+          "recommendedRang": "Junior",
+          "score": "4"
+        },
+        {
+          "id": "Wy8c",
+          "title": "покрасить кнопку",
+          "body": "в меню слева покрасить кнопку с зелёного на синий",
+          "complete": true,
+          "verified": true,
+          "start": true,
+          "userId": "nkui",
+          "recommendedRang": "Junior",
+          "score": "4"
+        },
+        {
+          "id": "QyUA",
+          "title": "еще одна таска",
+          "body": "пивко невское",
+          "complete": true,
+          "verified": true,
+          "start": true,
+          "userId": "abc5",
+          "recommendedRang": "Middle",
+          "score": "123"
+        },
+        {
+          "id": "Lx01",
+          "title": "amogus",
+          "body": "tytytyt",
+          "complete": true,
+          "verified": true,
+          "start": true,
+          "userId": "abc5",
+          "recommendedRang": "Senior",
+          "score": "4"
+        },
+        {
+          "id": "bYMB",
+          "title": "Ликёр",
+          "body": "12432",
+          "complete": true,
+          "verified": true,
+          "start": true,
+          "userId": "abc5",
+          "recommendedRang": "Senior",
+          "score": "6"
         }
       ]
     },
     {
-      "id": 2,
+      "id": "123",
+      "name": "Тесты",
+      "todos": [],
+      "gotTodos": []
+    },
+    {
+      "id": "test123",
+      "name": "Без названия",
+      "todos": [],
+      "gotTodos": []
+    }
+  ],
+  "users": [
+    {
+      "id": "abc5",
       "login": "katamaran",
       "password": "skipidar",
       "token": "351io5v13iynhm46mohi",
       "name": "Игорь Натальевич",
-      "rang": "Middle",
+      "teamId": "chriscap",
+      "rang": "Senior",
       "is": "developer",
-      "rating": 7,
-      "todos": [],
+      "rating": 6,
+      "todos": [
+        {
+          "id": "aPvH",
+          "title": "ип bobro",
+          "body": "fghjk",
+          "complete": false,
+          "verified": false,
+          "start": true,
+          "userId": "abc5",
+          "recommendedRang": "Middle",
+          "score": "123"
+        }
+      ],
       "completeTodos": [
         {
           "id": 64,
@@ -112,74 +187,126 @@
           "id": 65,
           "title": "Написать Workflow yml",
           "score": 4
-        }
-      ],
-      "overdueTodos": []
-    },
-    {
-      "id": 3,
-      "login": "tema123",
-      "password": "krot",
-      "token": "lpoybnmv72850963vh5v",
-      "name": "Артемий Татьянович",
-      "rang": "Junior",
-      "is": "developer",
-      "rating": 7,
-      "todos": [],
-      "completeTodos": [
-        {
-          "id": 66,
-          "title": "Покрасить кнопку",
-          "score": 2
         },
         {
-          "id": 67,
-          "title": "Наладить роутинг",
-          "score": 4
+          "id": "kKfY",
+          "score": "4",
+          "title": "Боль"
         },
         {
-          "id": 68,
-          "title": "Донести документ в соседний отдел",
-          "score": 1
+          "id": "QyUA",
+          "score": "123",
+          "title": "еще одна таска"
         },
         {
-          "id": 69,
-          "title": "Написать сортировку по id",
-          "score": 2
+          "id": "Lx01",
+          "score": "4",
+          "title": "amogus"
+        },
+        {
+          "id": "bYMB",
+          "score": "6",
+          "title": "Ликёр"
         }
       ],
       "overdueTodos": [
         {
-          "id": 70,
+          "id": "5NI1",
+          "title": "Пиво",
+          "score": "1"
+        }
+      ]
+    },
+    {
+      "id": "nkui",
+      "login": "tema123",
+      "password": "krot",
+      "token": "lpoybnmv72850963vh5v",
+      "name": "Артемий Татьянович",
+      "teamId": "chriscap",
+      "rang": "Junior",
+      "is": "developer",
+      "rating": 7,
+      "todos": [
+        {
+          "id": "5NI1",
+          "title": "Пиво",
+          "body": "Вобла",
+          "complete": false,
+          "verified": false,
+          "start": false,
+          "userId": "nkui",
+          "recommendedRang": "Junior",
+          "score": "1"
+        }
+      ],
+      "completeTodos": [
+        {
+          "id": "mkK2",
+          "title": "Покрасить кнопку",
+          "score": 2
+        },
+        {
+          "id": "12B6",
+          "title": "Наладить роутинг",
+          "score": 4
+        },
+        {
+          "id": "90Kl",
+          "title": "Донести документ в соседний отдел",
+          "score": 1
+        },
+        {
+          "id": "123F",
+          "title": "Написать сортировку по id",
+          "score": 2
+        },
+        {
+          "id": "Wy8c",
+          "score": "4",
+          "title": "покрасить кнопку"
+        }
+      ],
+      "overdueTodos": [
+        {
+          "id": "7j5G",
           "title": "Уронить прод",
           "score": 0
         },
         {
-          "id": 71,
+          "id": "okiP",
           "title": "Сделать запрос в бд на товары",
           "score": 2
         }
       ]
     },
     {
-      "id": 4,
+      "id": "16HH",
       "login": "loh123",
       "password": "321",
       "token": "kvmdjfnrhdyvn1538064",
       "name": "Лох Лохов",
+      "teamId": "chriscap",
       "rang": "Senior",
       "is": "developer",
-      "rating": 0,
+      "rating": -3,
       "todos": [],
       "completeTodos": [],
-      "overdueTodos": []
+      "overdueTodos": [
+        {
+          "id": "u9d1",
+          "title": "123",
+          "score": "3"
+        }
+      ]
     },
     {
-      "id": 5,
+      "id": "lk89",
       "login": "bobro",
       "password": "bobr",
       "token": "mkmkvg89bnj3156rwrnj",
       "name": "Александр Бобров",
+      "teamId": "chriscap",
       "rang": "Junior",
       "is": "developer",
       "rating": 0,
@@ -188,14 +315,111 @@
       "overdueTodos": []
     },
     {
-      "id": 6,
+      "id": "432Q",
       "login": "krot",
       "password": "321",
       "token": "95mtrq3quv7ysl9zmob6mbpi",
       "name": "Крот Лох",
+      "teamId": "chriscap",
       "is": "developer",
       "todos": [],
       "rang": "Junior",
+      "rating": 0,
+      "completeTodos": [],
+      "overdueTodos": []
+    },
+    {
+      "id": "0j5g",
+      "login": "test",
+      "password": "123",
+      "token": "u27qzqcz1rp9vo7uhlywb9ee",
+      "name": "Тест Тест",
+      "teamId": "chriscap",
+      "is": "developer",
+      "todos": [],
+      "rang": "Senior",
+      "rating": 0,
+      "completeTodos": [],
+      "overdueTodos": []
+    },
+    {
+      "id": "c8E2",
+      "login": "begemot22",
+      "password": "123",
+      "token": "zy3rx1f0i3eaet3i84xkxbep",
+      "name": "Анатолий Бегемотов",
+      "teamId": "chriscap",
+      "is": "developer",
+      "todos": [],
+      "rang": "Junior",
+      "rating": 0,
+      "completeTodos": [],
+      "overdueTodos": []
+    },
+    {
+      "id": "UX9V",
+      "login": "sus23",
+      "password": "123",
+      "token": "h901w1pb4kcghhbptiheqo2i",
+      "name": "Виталий Сусанин",
+      "teamId": "chriscap",
+      "is": "developer",
+      "todos": [],
+      "rang": "Senior",
+      "rating": 0,
+      "completeTodos": [],
+      "overdueTodos": []
+    },
+    {
+      "id": "8g1e",
+      "login": "gor123",
+      "password": "123",
+      "token": "rlw5hcgbizobp95qf77thsf7",
+      "name": "Горыныч Где",
+      "teamId": "test123",
+      "is": "developer",
+      "todos": [
+        {
+          "id": "odNm",
+          "title": "Массив юсеров",
+          "body": "Получить из бд пользователей и вывести их в любом формате",
+          "complete": false,
+          "verified": false,
+          "start": false,
+          "userId": "",
+          "recommendedRang": "Middle",
+          "score": "5"
+        }
+      ],
+      "rang": "Middle",
+      "rating": 100,
+      "completeTodos": [],
+      "overdueTodos": []
+    },
+    {
+      "id": "jc3C",
+      "login": "pupok47",
+      "password": "321",
+      "token": "555lfm26hejjrd73oas2q5zd",
+      "name": "Вася Пупкин",
+      "teamId": "test123",
+      "is": "developer",
+      "todos": [],
+      "rang": "Middle",
+      "rating": 0,
+      "completeTodos": [],
+      "overdueTodos": []
+    },
+    {
+      "id": "ZBkP",
+      "login": "griha123",
+      "password": "123",
+      "token": "3ufcj0bretgpp5h6fu3504lk",
+      "name": "Гриха Про",
+      "teamId": "chriscap",
+      "is": "developer",
+      "todos": [],
+      "rang": "Middle",
       "rating": 0,
       "completeTodos": [],
       "overdueTodos": []
@@ -203,23 +427,85 @@
   ],
   "admins": [
     {
-      "id": 1,
+      "id": "AAk8",
       "login": "chriscap",
-      "password": "her",
+      "password": "123",
       "token": "c29cn0ezdl785ikfyfu4iuil",
       "name": "Александр Шаненков",
       "is": "lead",
       "todos": [
         {
-          "id": 2,
-          "title": "1",
-          "body": "2",
+          "id": "jF9D",
+          "title": "456",
+          "body": "789",
           "complete": false,
+          "verified": false,
+          "start": false,
           "userId": 0,
-          "recommendedRang": "Junior",
+          "recommendedRang": "Middle",
           "score": "3"
         }
       ],
+      "notifications": [
+        {
+          "id": "iaPp",
+          "title": "Игорь Натальевич начал выполнение задачи amogus",
+          "date": "2023-11-23T09:47:38.853Z",
+          "viewed": false
+        },
+        {
+          "id": "YGcS",
+          "title": "Игорь Натальевич отправил задачу на проверку amogus",
+          "date": "2023-11-23T09:47:40.359Z",
+          "viewed": false
+        },
+        {
+          "id": "pW7c",
+          "title": "Игорь Натальевич начал выполнение задачи Ликёр",
+          "date": "2023-11-24T15:57:36.192Z",
+          "viewed": false
+        },
+        {
+          "id": "7JKC",
+          "title": "Игорь Натальевич отправил задачу на проверку Ликёр",
+          "date": "2023-11-24T15:57:38.666Z",
+          "viewed": false
+        }
+      ],
+      "rang": "Team Lead"
+    },
+    {
+      "id": "TpL2",
+      "login": "123",
+      "password": "321",
+      "token": "vqq4htxtnsef7kpjdt1h9799",
+      "name": "Моча Лоха",
+      "is": "lead",
+      "todos": [],
+      "notifications": [],
+      "rang": "Team Lead"
+    },
+    {
+      "id": "APSr",
+      "login": "test123",
+      "password": "123",
+      "token": "l86pnikg0juhvhehorsso730",
+      "name": "Мазоли Натёр",
+      "is": "lead",
+      "todos": [
+        {
+          "id": "KyBb",
+          "title": "Пластырь",
+          "body": "Мне нужен пластырь от мазолей и много",
+          "complete": false,
+          "verified": false,
+          "start": false,
+          "userId": "",
+          "recommendedRang": "Middle",
+          "score": "3"
+        }
+      ],
+      "notifications": [],
       "rang": "Team Lead"
     }
   ]

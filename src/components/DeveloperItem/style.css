@@ -1,0 +1,19 @@
+.view__task__button {
+    background-color: rgb(230, 230, 230);
+    border: 1px solid rgb(0, 213, 255);
+    margin: 0px 0px 15px 15px;
+    width: 230px;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.view__task__button:hover {
+    background-color: rgb(0, 213, 255);
+}
+
+.developerItem__wrapper-container {
+    transition: 0.3s;
+}

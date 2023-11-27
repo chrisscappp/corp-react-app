@@ -1,0 +1,40 @@
+.todoItem__wrapper-container-footer {
+	padding: 0px 0px 15px 8px;
+	display: flex;
+	width: 80%;
+	justify-content: space-around;
+}
+
+.myTodo__button {
+	background-color: rgb(230, 230, 230);
+	height: 27px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 15px;
+	transition: 0.3s;
+	background: none;
+}
+
+.btn-good {
+	border: 1px solid rgb(0, 213, 255);
+}
+
+.btn-good:hover {
+	background-color: rgb(0, 213, 255);
+}
+
+.btn-no {
+	border: 1px solid rgb(255, 0, 0);
+}
+
+.btn-no:hover {
+	background-color: rgb(255, 0, 0);
+}
+
+.btn-go {
+	border: 1px solid rgb(255, 174, 0);
+}
+
+.btn-go:hover {
+	background-color: rgb(255, 174, 0);
+}

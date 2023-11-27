@@ -1,10 +1,11 @@
 import { observer } from "mobx-react-lite"
 import { useEffect, useState } from "react"
-import { useStores } from "../hooks/rootStoreContext"
-import EnterForm from "../components/EnterForm/EnterForm"
-import RegModal from "../components/RegModal/RegModal"
-import Error from "../components/Error/Error"
-import Spinner from "../components/Spinner/Spinner"
+import { useStores } from "hooks/rootStoreContext"
+import EnterForm from "components/EnterForm/EnterForm"
+import RegModal from "components/RegModal/RegModal"
+import Error from "components/Error/Error"
+import Spinner from "components/Spinner/Spinner"
+import Footer from "components/Footer/Footer"
 import "./style.css"
 
 const SCREEN_HEIGHT = window.screen.height
@@ -39,7 +40,7 @@ const HomeLayout = () => {
                     />
                 </div>
             </div>
-            <div className="footer"></div>
+            <Footer/>
             {
                 showRegModal ?
                     <RegModal

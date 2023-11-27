@@ -1,80 +1,141 @@
 import { observer } from "mobx-react-lite"
-import { useStores } from "../../hooks/rootStoreContext"
-import { useEffect, useState } from "react"
-import { ITodo, IAdmin } from "../../models"
-import { isAdmin } from "../../utils/typeGuards"
-import Spinner from "../Spinner/Spinner"
+import { useStores } from "hooks/rootStoreContext"
+import { useEffect, useState, useCallback } from "react"
+import { ITodo, IAdmin, AdminToolsPopupId, IUser, INotification } from "models"
+import { isAdmin } from "utils/typeGuards"
+import { adminToolsIcons } from "utils/menuIcons"
+import IconButton from '@mui/material/IconButton'
+import Badge from "@mui/material/Badge"
+import NotificationsList from "../NotifcationsList/NotificationsList"
+import RemainsTasksList from "../RemainsTasksList/RemainsTasksList"
+import RemainsDevelopersList from "../RemainsDevelopersList/RemainsDevelopersList"
+import CloseIcon from '@mui/icons-material/Close';
+import NotListedLocationIcon from '@mui/icons-material/NotListedLocation';
 import "./style.css"
 
-interface TodosLayoutProps {
-    a: IAdmin | object;
+interface AdminToolsProps {
+    showTasks: () => void;
 }
 
-const AdminTools = ({ a }: TodosLayoutProps) => {
+const AdminTools = ({ showTasks }: AdminToolsProps) => {
 
-    const [admin, setAdmin] = useState(a)
-    const [coordX, setCoordX] = useState(8)
-    const [coordY, setCoordY] = useState(15)
+    const [popupId, setPopupId] = useState<AdminToolsPopupId>(AdminToolsPopupId.EMPTY_ID)
+    const [notifications, setNotifications] = useState<INotification[]>([])
+    const [remainsTasks, setRemainsTasks] = useState<ITodo[]>([])
+    const [remainsDevelopers, setRemainsDevelopers] = useState<IUser[]>([])
+    const [notificationsCount, setNotificationsCount] = useState<number>(0)
+    const [tasksCount, setTasksCount] = useState<number>(0)
+    const [devsCount, setDevsCount] = useState<number>(0)
+    const [adminTasksCount, setAdminTasksCount] = useState<number>(0)
+
+    let iconFlag = false;
+
+    const handleShowPopup = useCallback((id: AdminToolsPopupId) => {
+        setPopupId(id)
+        if (id === AdminToolsPopupId.ADMIN_TASKS) {
+            showTasks()
+            iconFlag = !iconFlag
+            adminToolsIcons[3].icon = iconFlag ? <CloseIcon/> : <NotListedLocationIcon />
+        }
+    }, [])
 
     const {
-        todosStore: {
-            getTodosAction, todos,
-        }, 
-        adminsStore: {
-            getTakenTodosAction, takenTodos, pickTodo,
-        },
+        commandsStore: { getCommandsAction, getRemainsTasks }, 
+        usersStore: { getUsersAction, getRemainsUsers },
+        adminsStore: { clearNotifications, admin: a, getLogAdmin },
     } = useStores()
 
     useEffect(() => {
-        getTodosAction()
-        getTakenTodosAction(isAdmin(admin) ? admin.id : 0)
+        if (isAdmin(a)) {
+            getCommandsAction()
+            getUsersAction()
+            getLogAdmin().then()
+            getRemainsTasks(a.todos).then((res) => {
+                setRemainsTasks(res)
+                setTasksCount(res.length)
+            })
+            getRemainsUsers().then((res) => {
+                setRemainsDevelopers(res)
+                setDevsCount(res.length)
+            })
+            setNotifications(a.notifications)
+            setNotificationsCount(a.notifications.length)
+            setAdminTasksCount(a.todos.length)
+        }
     }, [])
 
-    //console.log(takenTodos[0]?.body)
+    const tmpCount = [
+        notificationsCount,
+        tasksCount,
+        devsCount,
+        adminTasksCount,
+    ] // количество badgeContent в tools
 
-    const handleDragStart = (e: any) => {
-        //console.log(e.clientX, e.clientY)
+    adminToolsIcons.map((item, index) => { return item.count = tmpCount[index] })
 
+    const handleClearNotifications = async () => {
+        let tmp: IAdmin = JSON.parse(JSON.stringify(a))
+        tmp.notifications = []
+        setNotifications([])
+        setNotificationsCount(0)
+        await clearNotifications(tmp)
+        handleShowPopup(AdminToolsPopupId.EMPTY_ID)
     }
-
-    const handleDragLeave = (e: any) => {
-        //console.log(e)
-    }
-
-    const handleDragEnd = (e: any) => {
-        e.target.style.background = "aqua"
-        //console.log(e)
-        setCoordX(e.clientX)
-        setCoordY(e.clientY)
-    }
-
-    const handleDragOver = (e: any) => {
-        e.preventDefault()
-        e.target.style.background = "red"
-        //console.log(e.clientX, e.clientY)
-    }
-
-    const handleDrop = (e: any) => {
-        e.preventDefault()
-        //console.log(e.clientX, e.clientY)
-    }
-
-    //console.log(coordX, coordY)
 
     return (
         <>
-            <div 
-                className = "admin-tools__wrapper"
-                style = {{left: `${coordY}px`, top: `${coordX}`}}
-                draggable = {true}
-                onDragStart = {(e: any) => handleDragStart(e)}
-                onDragLeave = {(e: any) => handleDragLeave(e)}
-                onDragEnd={(e: any) => handleDragEnd(e)}
-                onDragOver={(e: any) => handleDragOver(e)}
-                onDrop={(e: any) => handleDrop(e)}
-            >
-                +
+            <div className = "admin__tools-wrapper">
+                <div className = "admin__tools-wrapper__container">
+                    {adminToolsIcons.map((item, index) => {
+                        return (
+                            <div 
+                                className = "admin__tools-wrapper__container-icon__wrapper"
+                                title = {item.title}
+                                key = {index}
+                            >
+                                <IconButton 
+                                    size="large" 
+                                    aria-label="show 4 new mails" 
+                                    color="inherit"
+                                >
+                                    <>
+                                        <Badge
+                                            badgeContent = {item.count} 
+                                            color = "error"
+                                            onClick = {() => handleShowPopup(item.id)}
+                                            id = {item.id}
+                                        >
+                                            {item.icon}
+                                        </Badge>
+                                    </>
+                                </IconButton>
+                            </div>
+                        )
+                    })}
+                </div>
             </div>
+            {
+                popupId === AdminToolsPopupId.NOTIFICATIONS ?
+                    <NotificationsList
+                        handleShowPopup = {handleShowPopup}
+                        notifications = {notifications}
+                        handleClearNotifications = {handleClearNotifications}
+                    /> : null
+            }
+            {
+                popupId === AdminToolsPopupId.REMAINS_TODOS ?
+                    <RemainsTasksList
+                        handleShowPopup = {handleShowPopup}
+                        remainsTasks = {remainsTasks}
+                    /> : null
+            }
+            {
+                popupId === AdminToolsPopupId.REMAINS_DEVELOPERS ?
+                    <RemainsDevelopersList
+                        handleShowPopup = {handleShowPopup}
+                        remainsDevelopers = {remainsDevelopers}
+                    /> : null
+            }
         </>
     )
 }

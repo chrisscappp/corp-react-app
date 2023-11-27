@@ -3,11 +3,12 @@ import Popup from "../Popup/Popup"
 import Typography from "@mui/material/Typography"
 import "./style.css"
 
-interface WrongPasswordProps {
+interface WrongModalProps {
     setShowPopup: Dispatch<SetStateAction<boolean>>;
+    title: string;
 }
 
-const WrongPassword = ({setShowPopup}: WrongPasswordProps) => {
+const WrongModal = ({setShowPopup, title}: WrongModalProps) => {
 
     const handleShowPopup = () => setShowPopup((showPopup) => !showPopup)
 
@@ -18,7 +19,7 @@ const WrongPassword = ({setShowPopup}: WrongPasswordProps) => {
                     Упс...
                 </Typography>
                 <Typography id="modal-modal-description" sx={{ mt: 2, fontSize: "18px" }}>
-                    Неправильный логин или пароль
+                    {title}
                 </Typography>
                 <div className = "popup__button-wrapper">
                     <button className = "popup__button-wrapper__admit" onClick = {handleShowPopup}>
@@ -30,4 +31,4 @@ const WrongPassword = ({setShowPopup}: WrongPasswordProps) => {
     )
 }
 
-export default memo(WrongPassword)
+export default memo(WrongModal)

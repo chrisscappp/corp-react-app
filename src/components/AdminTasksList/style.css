@@ -1,0 +1,37 @@
+.tasks-wrapper {
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.tasks-wrapper__container {
+	position: fixed;
+	z-index: 123;
+	width: 350px;
+	background-color: rgb(235, 235, 235);
+}
+
+.tasks-wrapper__container-item-wrapper__container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 45px;
+	transition: 0.3s;
+	cursor: grab;
+}
+
+.tasks-wrapper__container-item-wrapper {
+	transition: 0.3s;
+	
+}
+
+.tasks-wrapper__container-item-wrapper:hover {
+	background-color: rgb(129, 195, 223);
+}
+
+.tasks-wrapper__container-pagination__item {
+	display: flex;
+	margin: auto;
+	justify-content: center;
+	height: 50px;
+}

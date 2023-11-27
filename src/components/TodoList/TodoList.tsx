@@ -1,77 +1,25 @@
-import { Dispatch, SetStateAction, useState, MouseEvent } from "react"
 import { observer } from "mobx-react-lite"
-import { ITodo, WhoLogType } from "../../models"
+import { ITodo, WhoLogType } from "models"
 import Typography from "@mui/material/Typography"
 import TodoItem from "../TodoItem/TodoItem"
+import Pagination from "@mui/material/Pagination"
 import "./style.css"
 
 interface TodoListProps {
     todos: ITodo[];
     whoLog: WhoLogType;
-    showPopup: Dispatch<SetStateAction<boolean>>;
+    pageCount: number;
+    handleChangePage: ((e: any, page: number) => (void));
+    handlePickTodo: (t: ITodo) => void;
+    handleShowPopup: () => void;
 }
 
-// вот тут уже пойдёт драндроп для админа и простой просмотр для юсера
-// добавить летающий кружок!!!
-
-const TodoList = ({ todos, whoLog, showPopup }: TodoListProps) => {
-
-    const handleShowPopup = () => showPopup((showPopup) => !showPopup)
-    const [currentTodo, setCurrentTodo] = useState<ITodo>()
-    const [dropzoneTodos, setDropzoneTodos] = useState<ITodo[]>([])
-
-    const handleDragOver = (event: any) => {
-        event.preventDefault()
-
-    }
-
-    const handleDrop = (event: any) => {
-        event.preventDefault()
-        if (currentTodo) {
-            const currentIndex = todos.indexOf(currentTodo)
-            setDropzoneTodos([...dropzoneTodos, currentTodo])
-            todos.splice(currentIndex, 1)
-            console.log(currentIndex)
-        }
-        
-    }
-
-    const handleDrop2 = (event: any) => {
-        event.preventDefault()
-        if (currentTodo) {
-            const currentIndex = dropzoneTodos.indexOf(currentTodo)
-            todos.push(currentTodo)
-            dropzoneTodos.splice(currentIndex, 1)
-            console.log(currentIndex)
-        }
-    }
-
-    const handleDragStart = (event: any, todo: ITodo) => {
-        //console.log(todo)
-        setCurrentTodo(todo)
-    }
-
+const TodoList = ({ todos, whoLog, pageCount, handleChangePage, handlePickTodo, handleShowPopup }: TodoListProps) => {
+    
     return (
         <> 
-            <div 
-                className = "dropzone"
-                onDragOver = {handleDragOver}
-                onDrop = {handleDrop}
-            >
-                {dropzoneTodos.map((todo, index) => {
-                    return (
-                        <div 
-                            key = {index + 1}
-                            draggable={true}
-                            onDragStart = {(event) => handleDragStart(event, todo)}
-                        >
-                            {todo.body}
-                        </div>
-                    )
-                })}
-            </div>
-            <div className = "common-profile__wrapper" style = {{marginBottom: "20px"}}>
-                <div className = "info-wrapper__header todolist-wrapper__header">
+            <div className = "todoList__wrapper">
+                <div className = "todolist-wrapper__header">
                     <Typography gutterBottom variant="h5" component="div" style = {{paddingTop: "15px", paddingLeft: "15px"}}>
                         Список задач
                     </Typography>
@@ -93,29 +41,41 @@ const TodoList = ({ todos, whoLog, showPopup }: TodoListProps) => {
                         : null
                     }
                 </div>
-                <div 
-                    className = "info-wrapper__body todolist-wrapper"
-                    onDragOver = {handleDragOver}
-                    onDrop={handleDrop2}
-                >
-                    {todos.map((todo: ITodo) => {
-                        return (
-                            <div 
-                                key = {todo.id} 
-                                className = "todoItem__wrapper"
-                                draggable = {true}
-                                onDragOver = {handleDragOver}
-                                onDragStart = {(event) => handleDragStart(event, todo)}
-                            >
-                                <TodoItem
-                                    todo = {todo}
+                <div className = "info-wrapper__body todolist-wrapper">
+                    {
+                        todos.length > 0 ?
+                            <>
+                                {todos.map((todo: ITodo) => {
+                                    return (
+                                        <div 
+                                            key = {todo.id} 
+                                            className = "todoItem__wrapper"
+                                            style = {todo.verified ? {backgroundColor: "#c5e8e8"} : {}}
+                                        >
+                                            <TodoItem
+                                                todo = {todo}
+                                                whoLog = {whoLog}
+                                                handlePickTodo = {handlePickTodo}
+                                            />
+                                        </div>
+                                    )
+                                })}
+                                <Pagination 
+                                    count={pageCount} 
+                                    onChange = {handleChangePage}
+                                    size = {"medium"}
+                                    className = "footer__pagination"
                                 />
-                            </div>
-                            
-                        )
-                    })}
+                            </> 
+                            : <Typography gutterBottom variant="h6" component="div">
+                                Список задач пуст
+                            </Typography>
+                    } 
                 </div>
             </div>
+            {
+
+            }
         </>
     )
 }

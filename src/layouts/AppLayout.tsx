@@ -1,49 +1,46 @@
-import { Routes, Route } from "react-router-dom"
-import HomeLayout from "./HomeLayout"
-import DevelopersLayout from "./MyTasksLayout"
-import InfoLayout from "./InfoLayout"
-import UserProfileLyout from "./UserProfileLayout"
-import AdminProfileLayout from "./AdminProfileLayout"
-import TodosLayout from "./TodosLayout"
-import MyTasksLayout from "./MyTasksLayout"
-import ErrorLayout from "./ErrorLayout"
-import ProfileMenu from "../components/ProfileMenu/ProfileMenu"
-import Error from "../components/Error/Error"
-import AdminTools from "../components/AdminTools/AdminTools"
-import { useLogUser } from "../hooks/logUser"
-import { useLogAdmin } from "../hooks/logAdmin"
+import { Routes, Route, useNavigate } from "react-router-dom"
+import { lazy, useEffect } from "react"
+import { useStores } from "hooks/rootStoreContext"
 import { observer } from "mobx-react-lite"
-import { useEffect } from "react"
-import { isUser, isAdmin } from "../utils/typeGuards"
-import { useNavigate } from 'react-router-dom'
-import { useStores } from "../hooks/rootStoreContext"
-import { adminIcons, userIcons } from "../utils/menuIcons"
-import { LOG_ADMIN, LOG_USER } from "../utils/localStorageKeys"
+import { isUser, isAdmin } from "utils/typeGuards"
+import { TEAM_ID, TOKEN_KEY } from "utils/localStorageKeys"
+import Error from "components/Error/Error"
+import Layout from "./Layout"
+import ShowUserTasks from "components/ShowUserTasks/ShowUserTasks"
+
+const HomePage = lazy(() => {return import("./HomeLayout")})
+const DevelopersPage = lazy(() => {return import("./DevelopersLayout")})
+const UserProfilePage = lazy(() => {return import("./UserProfileLayout")})
+const AdminProfilePage = lazy(() => {return import("./AdminProfileLayout")})
+const TodosPage = lazy(() => {return import("./TodosLayout")})
+const MyTasksPage = lazy(() => {return import("./MyTasksLayout")})
+const InfoPage = lazy(() => {return import("./InfoLayout")})
+const ErrorPage = lazy(() => {return import("./ErrorLayout")})
 
 const AppLayout = () => {
 
     const navigate = useNavigate()
+    const token = localStorage.getItem(TOKEN_KEY)
+    const teamId = localStorage.getItem(TEAM_ID)
 
     const { 
-        usersStore: { 
-            error: usersError,
-        },
-        adminsStore: { 
-            error: adminsError,
-        },
-        todosStore: {
-            error: todosError,
-        },
+        usersStore: { error: usersError, user, getLogUser, users, getUsersAction  },
+        adminsStore: { error: adminsError, admin, getLogAdmin },
+        commandsStore: { error: todosError, setCommandId },
     } = useStores()
 
-    const { user, error: userError } = useLogUser()
-    const { admin, error: adminError } = useLogAdmin() 
+    useEffect(() => {
+        setCommandId(teamId ? teamId : "")
+        getLogUser().then()
+        getLogAdmin().then()
+        getUsersAction()
+    }, [])
 
     useEffect(() => {
-        if (isUser(user) || isAdmin(admin)) {
+        if (token !== null) {
             navigate("/profile")
         } else {
-            navigate('/')
+            navigate("/")
         }
     }, [user, admin])
 
@@ -53,88 +50,70 @@ const AppLayout = () => {
 
     return (
         <>
-            {   userError === "" ? 
-                <ProfileMenu
-                    icons = {userIcons}
-                    logOutKey = {LOG_USER}
-                /> : null
-            }
-            {   adminError === "" ? 
-                <>
-                    <ProfileMenu
-                        icons = {adminIcons}
-                        logOutKey = {LOG_ADMIN}
-                    /> 
-                     
-                </>
-                : null
-            }
             <Routes>
                 {
-                    userError === "" ?
+                    isUser(user)  ?
                         <>
-                            <Route path = "/mytodos" element = { 
-                                <MyTasksLayout/> 
-                            }/>
-                            <Route path = "/todos" element = { 
-                                <TodosLayout
-                                    whoLog = {"developer"}
-                                /> 
-                            }/>
-                            <Route path = "/profile" element = { 
-                                <UserProfileLyout
-                                    u = {user}
-                                /> 
-                            }
-                            />
-                            <Route path = "/info" element = { 
-                                <InfoLayout/> 
-                            }/>
+                            <Route path = "/" element = {
+                                <Layout 
+                                    whoLog = {user}
+                                />
+                            }>
+                                <Route path = "profile" element = { 
+                                    <UserProfilePage
+                                        u = {user}
+                                    /> 
+                                }/>
+                                <Route path = "mytodos" element = { 
+                                    <MyTasksPage
+                                        u = {user}
+                                    />
+                                }/>
+                                <Route path = "todos" element = { 
+                                    <TodosPage
+                                        a = {admin}
+                                        whoLog = {"developer"}
+                                    /> 
+                                }/>
+                                <Route path = "info" element = { <InfoPage/> }/>
+                            </Route> 
                         </>
                         :
-                        <Route path = "/" element = { <HomeLayout/> }/>
+                        <Route path = "/" element = { <HomePage/> }/>
                 }
                 {
-                    adminError === "" ?
+                    isAdmin(admin) ?
                         <>
-                            <Route path = "/developers" element = { 
-                                <>
-                                    <AdminTools
+                            <Route path = "/" element = {
+                                <Layout 
+                                    whoLog = {admin}
+                                />
+                            }>
+                                <Route path = "developers" element = { <DevelopersPage/> }/>
+                                <Route path = "todos" element = { 
+                                    <TodosPage
                                         a = {admin}
-                                    /> 
-                                    <DevelopersLayout/> 
-                                </>
-                            }
-                            />
-                            <Route path = "/todos" element = { 
-                                <>
-                                    <AdminTools
-                                        a = {admin}
-                                    /> 
-                                    <TodosLayout
                                         whoLog = {"lead"}
                                     /> 
-                                </>
-                            }
-                            />
-                            <Route path = "/profile" element = { 
-                                <>
-                                    <AdminTools
+                                }/>
+                                <Route path = "profile" element = { 
+                                    <AdminProfilePage
                                         a = {admin}
                                     /> 
-                                    <AdminProfileLayout
-                                        a = {admin}
+                                }/>
+                                <Route path = "info" element = { <InfoPage/> }/>
+                                <Route path = "developers/:id" element = { 
+                                    <ShowUserTasks 
+                                        users = {users}
+                                        whoLog = {admin.is}
                                     /> 
-                                </>
-                                
-                            }
-                            />
-                            <Route path = "/info" element = { <InfoLayout/> }/>
+                                }/>
+                            </Route> 
                         </>
                         :  
-                        <Route path = "/" element = { <HomeLayout/> }/>
+                        <Route path = "/" element = { <HomePage/> }/>
                 }
-                <Route path = "*" element = { <ErrorLayout/> }/>
+                <Route path = "*" element = { <ErrorPage/> }/>
             </Routes>
         </>
     )

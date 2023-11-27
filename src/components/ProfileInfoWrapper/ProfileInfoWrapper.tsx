@@ -1,14 +1,15 @@
-import { memo, Dispatch, SetStateAction } from "react"
-import { IUser, IAdmin } from "../../models"
+import { memo } from "react"
+import { IUser, IAdmin } from "models"
 import Typography from "@mui/material/Typography"
 
 interface ProfileInfoWrapperProps {
     data: IUser | IAdmin;
-    setShowChangePopup: Dispatch<SetStateAction<boolean>>;
-    setShowDeletePopup: Dispatch<SetStateAction<boolean>>;
+    handleShowChangePopup: () => void;
+    handleShowDeletePopup: () => void;
 }
 
-const ProfileInfoWrapper = ({ data, setShowChangePopup, setShowDeletePopup }: ProfileInfoWrapperProps) => {
+const ProfileInfoWrapper = ({ data, handleShowChangePopup, handleShowDeletePopup }: ProfileInfoWrapperProps) => {
+
     return (
         <>
             <div className = "adminProfile__wrapper-info__wrapper common-profile__wrapper">
@@ -24,6 +25,9 @@ const ProfileInfoWrapper = ({ data, setShowChangePopup, setShowDeletePopup }: Pr
                         </Typography>
                         <Typography sx={{ marginBottom: "15px" }} color="text.secondary">
                             Логин: @{data.login}
+                        </Typography>
+                        <Typography color="text.secondary">
+                            ID в системе: {data.id}
                         </Typography>
                         {
                             data.is === "developer" ? 
@@ -45,7 +49,7 @@ const ProfileInfoWrapper = ({ data, setShowChangePopup, setShowDeletePopup }: Pr
                         <div>
                             <button 
                                 className = "info-wrapper__body-buttons__item item1"
-                                onClick = {() => setShowChangePopup(true)}
+                                onClick = {handleShowChangePopup}
                             >
                                 изменить пароль
                             </button>
@@ -53,7 +57,7 @@ const ProfileInfoWrapper = ({ data, setShowChangePopup, setShowDeletePopup }: Pr
                         <div style = {{paddingTop: "8px"}}>
                             <button 
                                 className = "info-wrapper__body-buttons__item item2"
-                                onClick = {() => setShowDeletePopup(true)}
+                                onClick = {handleShowDeletePopup}
                             >
                                 удалить аккаунт
                             </button>

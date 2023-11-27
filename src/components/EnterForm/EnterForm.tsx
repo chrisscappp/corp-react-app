@@ -12,12 +12,12 @@ import InputAdornment from "@mui/material/InputAdornment"
 import IconButton from "@mui/material/IconButton"
 import OutlinedInput from "@mui/material/OutlinedInput"
 import EnterFormButtons from "./EnterFormButtons"
-import WrongPassword from "../WrongPassword/WrongPassword"
-import { useState } from "react"
+import WrongModal from "../WrongModal/WrongModal"
+import { useState, useCallback } from "react"
 import { useForm } from "react-hook-form"
-import { IUser, IAdmin, EnterFormValues } from "../../models"
-import { findByKey } from "../../utils/findByKey"
-import { LOG_USER, LOG_ADMIN } from "../../utils/localStorageKeys"
+import { IUser, IAdmin, EnterFormValues } from "models"
+import { findByKey } from "utils/findByKey"
+import { TEAM_ID, TOKEN_KEY } from "utils/localStorageKeys"
 import "./style.css"
 
 interface EnterFormProps {
@@ -34,14 +34,15 @@ const EnterForm = ({ users, admins, showReg }: EnterFormProps) => {
     const [checkbox, setCheckbox] = useState(false)
     const [showPopup, setShowPopup] = useState(false)
 
-    const handleClickShowPassword = () => setShowPassword((show) => !show)
-    const handleChangeCheckbox = () => setCheckbox((checkbox) => !checkbox)
+    const handleClickShowPassword = useCallback(() => setShowPassword((show) => !show), [])
+    const handleChangeCheckbox = useCallback(() => setCheckbox((checkbox) => !checkbox), [])
 
     function enterUser(data: EnterFormValues) {
         if (checkbox === false) {
             const findUser: IUser | undefined = findByKey(users, "login", data.login)
             if (findUser && findUser.password === data.password) {
-                localStorage.setItem(LOG_USER, JSON.stringify(findUser))
+                localStorage.setItem(TOKEN_KEY, findUser.token)
+                localStorage.setItem(TEAM_ID, findUser.teamId)
                 window.location.reload()
             } else {
                 setShowPopup(true)
@@ -49,7 +50,9 @@ const EnterForm = ({ users, admins, showReg }: EnterFormProps) => {
         } else {
             const findUser: IAdmin | undefined = findByKey(admins, "login", data.login)
             if (findUser && findUser.password === data.password) {
-                localStorage.setItem(LOG_ADMIN, JSON.stringify(findUser))
+                //localStorage.setItem(LOG_ADMIN, JSON.stringify(findUser))
+                localStorage.setItem(TOKEN_KEY, findUser.token)
+                localStorage.setItem(TEAM_ID, findUser.login)
                 window.location.reload()
             } else {
                 setShowPopup(true)
@@ -135,8 +138,9 @@ const EnterForm = ({ users, admins, showReg }: EnterFormProps) => {
             </form>
             {
                 showPopup ? 
-                    <WrongPassword 
+                    <WrongModal 
                         setShowPopup = {setShowPopup}
+                        title = {"Неправильный логин или пароль!"}
                     /> : null
             }
         </>

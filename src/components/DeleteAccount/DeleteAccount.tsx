@@ -9,7 +9,7 @@ import "./style.css"
 interface DeleteAccountProps {
     userPass: string;
     handleDeleteAccount: () => void;
-    setShowPopup: Dispatch<SetStateAction<boolean>>;
+    handleShowPopup: () => void;
     setShowErrorAlert: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -18,11 +18,9 @@ type DeleteAccountFormValues = {
     repeatPass: string,
 }
 
-const DeleteAccount = ({userPass, handleDeleteAccount, setShowPopup, setShowErrorAlert}: DeleteAccountProps) => {
+const DeleteAccount = ({userPass, handleDeleteAccount, handleShowPopup, setShowErrorAlert}: DeleteAccountProps) => {
     
     const { register, handleSubmit, formState: { errors } } = useForm<DeleteAccountFormValues>()
-
-    const handleShowPopup = () => setShowPopup((showPopup) => !showPopup)
 
     const checkPassword = (data: DeleteAccountFormValues) => {
         if ((data.pass === data.repeatPass) && userPass === data.pass) {

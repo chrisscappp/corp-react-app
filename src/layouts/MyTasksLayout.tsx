@@ -1,7 +1,26 @@
-const MyTasksLayout = () => {
+import { useStores } from "hooks/rootStoreContext"
+import { IUser } from "models"
+import MyTodoList from "components/MyTodoList/MyTodoList";
+import "./style.css"
+
+interface MyTasksLayoutProps {
+    u: IUser;
+}
+
+const MyTasksLayout = ({ u }: MyTasksLayoutProps) => {
+
+
+
     return (
         <>
-            taskt
+            <div className = "my__todos__wrapper">
+                <div className = "my__todos__wrapper-container" style = {{marginTop: "10px"}}>
+                    <MyTodoList
+                        flag = {false} 
+                        todos = {u.todos}
+                    />
+                </div>
+            </div>
         </>
     )
 }

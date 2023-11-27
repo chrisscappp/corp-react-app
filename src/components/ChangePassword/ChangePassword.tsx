@@ -4,11 +4,12 @@ import Popup from "../Popup/Popup"
 import Typography from "@mui/material/Typography"
 import TextField from "@mui/material/TextField"
 import CloseIcon from '@mui/icons-material/Close'
+import "./style.css"
 
 interface ChangePasswordProps {
     oldPassword: string;
     handleChangePassword: (val: string) => void;
-    setShowPopup: Dispatch<SetStateAction<boolean>>;
+    handleShowPopup: () => void;
     setShowErrorAlert: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -17,11 +18,9 @@ type ChangePasswordFormValues = {
     newPass: string,
 }
 
-const ChangePassword = ({oldPassword, handleChangePassword, setShowPopup, setShowErrorAlert}: ChangePasswordProps) => {
+const ChangePassword = ({oldPassword, handleChangePassword, handleShowPopup, setShowErrorAlert}: ChangePasswordProps) => {
 
     const { register, handleSubmit, formState: { errors } } = useForm<ChangePasswordFormValues>()
-
-    const handleShowPopup = () => setShowPopup((showPopup) => !showPopup)
 
     const checkNewPassword = (data: ChangePasswordFormValues) => {
         if (oldPassword === data.oldPass) {
@@ -33,8 +32,6 @@ const ChangePassword = ({oldPassword, handleChangePassword, setShowPopup, setSho
             setTimeout(() => setShowErrorAlert(false), 5000)
         }
     }
-
-    // добавить вниз уведомления о статусе изменения пароля (бэд и гуд)
 
     return (
         <>
@@ -79,7 +76,7 @@ const ChangePassword = ({oldPassword, handleChangePassword, setShowPopup, setSho
                             <Typography className = "empty-error">Поле не должно быть пустым</Typography>
                         )}
                     </div>
-                    <button className = "reg__button" type="submit" value="submit">
+                    <button className = "change__button" type="submit" value="submit">
                         изменить пароль
                     </button>
                 </form>

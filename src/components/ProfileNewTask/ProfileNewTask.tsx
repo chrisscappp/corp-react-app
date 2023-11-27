@@ -1,13 +1,11 @@
-import { memo, Dispatch, SetStateAction } from "react"
+import { memo } from "react"
 import Typography from "@mui/material/Typography"
 
 interface ProfileNewTaskProps {
-    setShowNewTaskPopup: Dispatch<SetStateAction<boolean>>;
+    handleShowPopup: () => void;
 }
 
-const ProfileNewTask = ({ setShowNewTaskPopup }: ProfileNewTaskProps) => {
-
-    const handleShowPopup = () => setShowNewTaskPopup((showPopup) => !showPopup)
+const ProfileNewTask = ({ handleShowPopup }: ProfileNewTaskProps) => {
 
     return (
         <>

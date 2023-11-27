@@ -1,49 +1,69 @@
 import { Dispatch, SetStateAction, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { useForm } from "react-hook-form"
-import { CreateNewTaskValues, Rangs } from "../../models"
-import { useStores } from "../../hooks/rootStoreContext"
+import { CreateNewTaskValues, ITodo, Rangs } from "models"
+import { useStores } from "hooks/rootStoreContext"
+import { generateId } from "utils/generateId"
 import Popup from "../Popup/Popup"
 import MenuItem from "@mui/material/MenuItem"
 import SelectComponent from "../SelectComponent/SelectComponent"
 import Typography from "@mui/material/Typography"
 import TextField from "@mui/material/TextField"
 import CloseIcon from "@mui/icons-material/Close"
+import { isCreateTodoFunc } from "utils/typeGuards"
 import "./style.css"
 
 interface CreateNewTaskProps {
-    setShowPopup: Dispatch<SetStateAction<boolean>>;
+    handleShowPopup: () => void;
     setShowTaskAlert: Dispatch<SetStateAction<boolean>>;
     setShowErrorAlert: Dispatch<SetStateAction<boolean>>;
+    handleTest?: ((todo: ITodo) => void) | undefined;
 }
 
 const selectProp = {
     rangs: { inputLabel: "Рекомендованный ранг", helperText: "" },
 }
 
-const CreateNewTask = ({ setShowPopup, setShowTaskAlert, setShowErrorAlert }: CreateNewTaskProps) => {
+const CreateNewTask = ({ handleShowPopup, setShowTaskAlert, setShowErrorAlert, handleTest }: CreateNewTaskProps) => {
 
     const [rang, setRang] = useState<Rangs | "">("")
     
-    const { todosStore: { createNewTodo } } = useStores()
+    const { commandsStore: { createNewTodo } } = useStores()
     
     const { register, handleSubmit, formState: { errors } } = useForm<CreateNewTaskValues>()
 
-    const handleShowPopup = () => setShowPopup((showPopup) => !showPopup)
-
     const handleCreateTodo = (data: CreateNewTaskValues) => {
         if (rang !== "") {
-            createNewTodo(data, rang)
-            setShowTaskAlert(true)
-            handleShowPopup()
-            setTimeout(() => setShowTaskAlert(false), 5000)
+            const i = generateId()
+            const obj: ITodo = {
+                id: i,
+                title: data.title,
+                body: data.body,
+                complete: false,
+                verified: false,
+                start: false,
+                userId: "",
+                recommendedRang: rang,
+                score: data.score,
+            }
+            if (isCreateTodoFunc(handleTest)) {
+                handleTest(obj)
+                setShowTaskAlert(true)
+                handleShowPopup()
+                setTimeout(() => setShowTaskAlert(false), 5000)
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+            } else {
+                createNewTodo(obj)
+                setShowTaskAlert(true)
+                handleShowPopup()
+                setTimeout(() => setShowTaskAlert(false), 5000)
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+            }
         } else {
             setShowErrorAlert(true)
             handleShowPopup()
             setTimeout(() => setShowErrorAlert(false), 5000)
         }
-        
-        //console.log(data)
     }
     
     return (
@@ -109,7 +129,7 @@ const CreateNewTask = ({ setShowPopup, setShowTaskAlert, setShowErrorAlert }: Cr
                         </SelectComponent>
                         {rang === "" ? <Typography className = "empty-error">Поле не должно быть пустым</Typography> : null}
                     </div>
-                    <button className = "reg__button" type="submit" value="submit">
+                    <button className = "create__button" type="submit" value="submit">
                         вжух!
                     </button>
                 </form>

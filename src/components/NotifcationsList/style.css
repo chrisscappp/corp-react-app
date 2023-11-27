@@ -1,0 +1,15 @@
+.clear__notif__button {
+    background-color: #fff;;
+    border: 1px solid rgb(0, 213, 255);
+    margin-top: 20px;
+    width: 230px;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.clear__notif__button:hover {
+    background-color: rgb(0, 213, 255);
+}
